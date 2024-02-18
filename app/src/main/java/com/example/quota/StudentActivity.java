@@ -146,8 +146,8 @@ public class StudentActivity extends AppCompatActivity {
         ImageButton save = toolbar.findViewById(R.id.save);
         save.setOnClickListener(v->saveStatus());
 
-        title.setText(sectionName);
-        subtitle.setText(gradeLevel + " | " + calendar.getDate());
+        title.setText(sectionName + " | " + gradeLevel);
+        subtitle.setText(calendar.getDate());
 
         back.setOnClickListener(v -> onBackPressed());
         toolbar.inflateMenu(R.menu.student_menu);
@@ -158,8 +158,8 @@ public class StudentActivity extends AppCompatActivity {
     private void saveStatus() {
         for (StudentItem studentItem : studentItems) {
             String status = studentItem.getStatus();
-            if (status != null && !status.equals("P") && !status.equals("A")) {
-                status = "L";
+            if (status != null && !status.equals("P") && !status.equals("L")) {
+                status = "A";
             } else if (status == null) {
                 // Handle the case where status is null (set default value or handle accordingly)
                 status = "A"; // Setting a default value, adjust as needed
@@ -191,7 +191,7 @@ public class StudentActivity extends AppCompatActivity {
             showAddStudentDialog();
         } else if (menuItem.getItemId()==R.id.show_Calendar) {
             showCalendar();
-        }else if (menuItem.getItemId()==R.id.show_attendance_sheet) {
+        } else if (menuItem.getItemId()==R.id.show_attendance_sheet) {
             openSheetList();
         }
         return true;

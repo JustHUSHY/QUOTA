@@ -1,6 +1,7 @@
 package com.example.quota;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -10,7 +11,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -19,11 +22,15 @@ public class SheetListActivity extends AppCompatActivity {
     private ArrayAdapter adapter;
     private ArrayList<String> listItems = new ArrayList();
     private long cid;
+    Toolbar toolbar;
+    private TextView subtitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sheet_list);
+
+        setToolbar();
 
         cid = getIntent().getLongExtra("cid", -1);
         Log.i("1234567890", "onCreate: " + cid);
@@ -33,6 +40,20 @@ public class SheetListActivity extends AppCompatActivity {
         sheetList.setAdapter(adapter);
 
         sheetList.setOnItemClickListener((parent, view, position, id) -> openSheetActivity(position));
+    }
+
+    private void setToolbar() {
+        toolbar = findViewById(R.id.toolbar);
+        TextView title = toolbar.findViewById(R.id.title_toolbar);
+        subtitle = toolbar.findViewById(R.id.subtitle_toolbar);
+        ImageButton back = toolbar.findViewById(R.id.back);
+        ImageButton save = toolbar.findViewById(R.id.save);
+        save.setVisibility(View.GONE);
+
+        title.setText("Attendance Sheet");
+        subtitle.setVisibility(View.GONE);
+
+        back.setOnClickListener(v -> onBackPressed());
     }
 
 

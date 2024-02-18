@@ -39,6 +39,6 @@ public class MyCalendar extends DialogFragment {
     }
 
     String getDate(){
-        return DateFormat.format("dd,MM,yyyy", calendar).toString();
+        return DateFormat.format("dd, MM,yyyy", calendar).toString();
     }
 }

@@ -203,31 +203,30 @@
             Log.d("DbHelper", "Query: " + SELECT_STATUS_TABLE + " WHERE " + S_ID + "=" + sid + " AND " + DATE_KEY + "='" + date + "'");
 
             Cursor cursor = database.query(STATUS_TABLE_NAME, null, whereClause, null, null, null, null);
+            if (cursor != null) {
+                if (cursor.moveToFirst())
+                    try {
+                            int statusColumnIndex = cursor.getColumnIndex(STATUS_KEY);
 
-            if (cursor.moveToFirst())
-                try {
-                int statusColumnIndex = cursor.getColumnIndex(STATUS_KEY);
-                if (statusColumnIndex != -1){
-                    status = cursor.getString(cursor.getColumnIndex(STATUS_KEY));
-                    Log.d("DbHelper", "Status retrieved successfully: " + status);
-                }
+                            if (statusColumnIndex != -1) {
+                                status = cursor.getString(cursor.getColumnIndex(STATUS_KEY));
+                                Log.d("DbHelper", "Status retrieved successfully: " + status);
+                            }
+                    } catch (Exception e) {
+                        Log.e("DbHelper", "Error retrieving status from database", e);
+                    }
                 else {
-                    Log.e("DbHelper", "Column index for STATUS_KEY not found");
+                    Log.d("DbHelper", "No matching records found");
                 }
-
-                } catch (Exception e) {
-                    Log.e("DbHelper", "Error retrieving status from database", e);
-                }
-            else{
-                Log.d("DbHelper","No matching records found");
+            } else {
+                Log.d("DbHelper", "cursor is null");
             }
-
             cursor.close();
             return status;
         }
 
         Cursor getDistinctMonths(long cid) {
             SQLiteDatabase database = this.getReadableDatabase();
-            return database.query(STATUS_TABLE_NAME, new String[]{DATE_KEY}, C_ID + "=" + cid, null, "substr(" + DATE_KEY + ",4,7)", null, null);
+            return database.query(STATUS_TABLE_NAME, new String[]{DATE_KEY}, C_ID + "=" + cid, null, "substr(" + DATE_KEY + ",4,7)", null, null);//01.04.2020
         }
     }
